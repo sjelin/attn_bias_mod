@@ -30,6 +30,21 @@ function Face({src, good, on, toggle}) {
 	);
 }
 
+function ConfirmationButton({faces, setFaces}) {
+	const correct =
+		faces.map(f => f.good === f.on).reduce((x, y) => x && y);
+	const onClick = function() {
+		if (correct) {
+			setFaces(generateFaces());
+		} else {
+			alert('not quite...');
+		}
+	};
+	const className =
+		'confirmation ' + (correct ? 'enabled' : 'disabled');
+	return el('button', {className, onClick}, 'Confirm');
+}
+
 function App() {
 	let [faces, setFaces] = useState(generateFaces());
 	function toggleFace(idx) {
@@ -44,7 +59,13 @@ function App() {
 		let tds = imgs.slice(i*4, i*4+4).map(img => el('td', null, img));
 		rows.push(el('tr', null, ...tds));
 	}
-	return el('table', null, el('tbody', null, ...rows));
+	return el(
+		'div',
+		null, 
+		el('h2', null, 'Tap on non-threatening faces'),
+		el('table', null, el('tbody', null, ...rows)),
+		el(ConfirmationButton, {faces, setFaces}, null)
+	);
 }
 
 export default function() {
