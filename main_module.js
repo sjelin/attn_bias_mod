@@ -19,9 +19,9 @@ function get_new_face(all_faces, seen_faces) {
 }
 
 function generateFaces() {
-// this is for me removing incorrect bad faces
-//	return bad_faces.map(
-//		name => ({src: `faces/bad/${name}`, good: false, on: false})
+	// this is for me removing incorrect good/bad faces
+//	return good_faces.map(
+//		name => ({src: `faces/good/${name}`, good: true, on: false})
 //	);
 
 	if (Object.keys(seen_good_faces).length * 2 > good_faces.length) {
