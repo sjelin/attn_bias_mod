@@ -19,6 +19,11 @@ function get_new_face(all_faces, seen_faces) {
 }
 
 function generateFaces() {
+// this is for me removing incorrect bad faces
+//	return bad_faces.map(
+//		name => ({src: `faces/bad/${name}`, good: false, on: false})
+//	);
+
 	if (Object.keys(seen_good_faces).length * 2 > good_faces.length) {
 		seen_good_faces.forEach(name => { delete seen_good_faces[name] });
 	}
@@ -77,7 +82,7 @@ function App() {
 		Face, {...props, toggle: toggleFace.bind(null, i)}, null
 	));
 	let rows = [];
-	for (let i = 0; i < 4; i++) {
+	for (let i = 0; i < Math.floor(imgs.length/4); i++) {
 		let tds = imgs.slice(i*4, i*4+4).map(img => el('td', null, img));
 		rows.push(el('tr', null, ...tds));
 	}
