@@ -1,5 +1,7 @@
 import React, { StrictMode, useState } from "https://esm.sh/react?dev";
 import { createRoot } from "https://esm.sh/react-dom/client?dev";
+import bad_faces from './faces/bad.json' with { type: "json" };
+import good_faces from './faces/good.json' with { type: "json" };
 
 const el = React.createElement;
 
@@ -7,13 +9,11 @@ function generateFaces() {
 	const faces = [];
 	for (let i = 0; i < 16; i++) {
 		if (Math.random() < 0.5) {
-			faces.push({
-				src: 'happy_white_woman.png', good: true, on: false
-			});
+			name = good_faces[Math.floor(good_faces.length*Math.random())];
+			faces.push({src: `faces/good/${name}`, good: true, on: false});
 		} else {
-			faces.push({
-				src: 'angry_white_woman.png', good: false, on: false
-			});
+			name = bad_faces[Math.floor(bad_faces.length*Math.random())];
+			faces.push({src: `faces/bad/${name}`, good: false, on: false});
 		}
 	}
 	return faces;
