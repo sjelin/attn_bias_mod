@@ -1,18 +1,35 @@
 import React, { StrictMode, useState } from "https://esm.sh/react?dev";
 import { createRoot } from "https://esm.sh/react-dom/client?dev";
-import bad_faces from './faces/bad.json' with { type: "json" };
-import good_faces from './faces/good.json' with { type: "json" };
 
 const el = React.createElement;
+
+import bad_faces from './faces/bad.json' with { type: "json" };
+import good_faces from './faces/good.json' with { type: "json" };
+const seen_good_faces = {};
+const seen_bad_faces = {};
+
+function get_new_face(all_faces, seen_faces) {
+	const seen_list = Object.getOwnPropertyNames(seen_faces);
+	if (seen_list.length * 2 > all_faces.length) {
+		seen_list.forEach(name => { delete seen_faces[name] });
+	}
+	while (true) {
+		name = all_faces[Math.floor(all_faces.length*Math.random())];
+		if (!(name in seen_faces)) {
+			seen_faces[name] = true;
+			return name;
+		}
+	}
+}
 
 function generateFaces() {
 	const faces = [];
 	for (let i = 0; i < 16; i++) {
 		if (Math.random() < 0.5) {
-			name = good_faces[Math.floor(good_faces.length*Math.random())];
+			name = get_new_face(good_faces, seen_good_faces);
 			faces.push({src: `faces/good/${name}`, good: true, on: false});
 		} else {
-			name = bad_faces[Math.floor(bad_faces.length*Math.random())];
+			name = get_new_face(bad_faces, seen_bad_faces);
 			faces.push({src: `faces/bad/${name}`, good: false, on: false});
 		}
 	}
@@ -45,8 +62,10 @@ function ConfirmationButton({faces, setFaces}) {
 	return el('button', {className, onClick}, 'Confirm');
 }
 
+const INITIAL_FACES = generateFaces();
+
 function App() {
-	let [faces, setFaces] = useState(generateFaces());
+	let [faces, setFaces] = useState(INITIAL_FACES);
 	function toggleFace(idx) {
 		setFaces(faces.map((f, i) => i === idx ? {...f, on: !f.on} : f));
 	};
