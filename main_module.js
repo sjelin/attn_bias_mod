@@ -84,7 +84,7 @@ function App() {
 	return el(
 		'div',
 		null, 
-		el('h2', null, 'Tap on non-threatening faces'),
+		el('h2', null, 'Tap on happy faces'),
 		el('table', null, el('tbody', null, ...rows)),
 		el(ConfirmationButton, {faces, setFaces}, null)
 	);
