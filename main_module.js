@@ -9,10 +9,6 @@ const seen_good_faces = {};
 const seen_bad_faces = {};
 
 function get_new_face(all_faces, seen_faces) {
-	const seen_list = Object.getOwnPropertyNames(seen_faces);
-	if (seen_list.length * 2 > all_faces.length) {
-		seen_list.forEach(name => { delete seen_faces[name] });
-	}
 	while (true) {
 		name = all_faces[Math.floor(all_faces.length*Math.random())];
 		if (!(name in seen_faces)) {
@@ -23,6 +19,13 @@ function get_new_face(all_faces, seen_faces) {
 }
 
 function generateFaces() {
+	if (Object.keys(seen_good_faces).length * 2 > good_faces.length) {
+		seen_good_faces.forEach(name => { delete seen_good_faces[name] });
+	}
+	if (Object.keys(seen_bad_faces).length * 2 > bad_faces.length) {
+		seen_bad_faces.forEach(name => { delete seen_bad_faces[name] });
+	}
+
 	const faces = [];
 	for (let i = 0; i < 16; i++) {
 		if (Math.random() < 0.5) {
